@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import json
+import pickle
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -9,6 +11,10 @@ from sqlalchemy import text
 
 from flask import (
     Flask,
+    request,
+    redirect,
+    url_for,
+    flash,
     render_template,
     jsonify)
 
@@ -49,8 +55,37 @@ def index():
     return render_template("index.html")
 
 
+# @app.route('/api/', methods=['POST'])
+# def makecalc():
+# 	j_data = request.get_json()
+
+# 	prediction = np.array2string(model.predict(j_data))
+	
+# 	return jsonify(prediction)
+
+
+
+# @app.route("/countries")
+# def countries():
+#     """Return a list of country names."""
+
+#     # Use Pandas to perform the sql query
+#     stmt = db.session.query(gdpind).statement
+#     df = pd.read_sql_query(stmt, db.session.bind)
+#     # Return a list of unique country names in the first column
+#     return jsonify(list(df['country'].unique()))
+
+
+
+
+
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+    modelfile = 'models/final_prediction.pickle'    
+
+    model = p.load(open(modelfile, 'rb'))
+    
+    app.run(debug=True,host='0.0.0.0')
